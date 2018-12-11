@@ -14,7 +14,6 @@ read -p "Install globally? (locally by default) [y|n] " -n 1 -r < /dev/tty
         HOOKS_PATH='~/.git_template/hooks'
     else
         echo "Locally to project $CURRENT_PROJECT"
-
     fi
 
 echo "installing hooks..."
@@ -30,3 +29,6 @@ chmod +x $HOOKS_PATH/commit-msg
 echo 'pre-push path: ' $HOOKS_PATH/pre-push
 #echo -e '' > $HOOKS_PATH/pre-push
 chmod +x $HOOKS_PATH/pre-push
+
+echo "Installing ktlint https://ktlint.github.io/"
+echo -e '' > $CURRENT_PROJECT/ktlint.gradle
