@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+PROTECTED_BRANCH='master'
+CURRENT_BRANCH=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+
+if [ $PROTECTED_BRANCH = $CURRENT_BRANCH ]; then
+    read -p "You're about to push $PROTECTED_BRANCH, is that what you intended? [y|n] " -n 1 -r < /dev/tty
+    echo
+    if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
+        exit 0
+    fi
+    exit 1
+else
+    exit 0
+fi

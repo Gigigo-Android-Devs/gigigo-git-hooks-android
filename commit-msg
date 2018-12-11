@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Automatically adds branch name and branch description to every commit message. 
+#NAME=$(git branch | sed -n -e 's/^* //gp') 
+#DESCRIPTION=$(git config branch."$NAME".description)
+MESSAGE=$(cat "$1" | sed '/^#.*/d')
+
+if [ -n "$MESSAGE" ]
+then
+    #echo "$NAME"': '"$MESSAGE" > "$1"
+    echo "$MESSAGE"
+    #if [ -n "$DESCRIPTION" ] 
+    #then
+       #echo "" >> "$1"
+       #echo $DESCRIPTION >> "$1"
+    #fi
+else
+    echo "Aborting commit due to empty commit message."
+    exit 1
+fi
