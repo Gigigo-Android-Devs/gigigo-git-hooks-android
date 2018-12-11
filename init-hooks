@@ -17,16 +17,16 @@ read -p "Install globally? (locally by default) [y|n] " -n 1 -r < /dev/tty
 
     fi
 
-echo "installing Git hooks..."
+echo "installing hooks..."
 
 echo 'pre-commit path: ' $HOOKS_PATH/pre-commit
 #echo -e '' > $HOOKS_PATH/pre-commit 
-#chmod +x $HOOKS_PATH/pre-commit
+chmod +x $HOOKS_PATH/pre-commit
 
 echo 'commit-msg path: ' $HOOKS_PATH/commit-msg
 #echo -e '' > $HOOKS_PATH/commit-msg
-#chmod +x $HOOKS_PATH/commit-msg
+chmod +x $HOOKS_PATH/commit-msg
 
 echo 'pre-push path: ' $HOOKS_PATH/pre-push
 #echo -e '' > $HOOKS_PATH/pre-push
-#chmod +x $HOOKS_PATH/pre-push
+chmod +x $HOOKS_PATH/pre-push
