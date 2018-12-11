@@ -1,9 +1,0 @@
-#!/bin/sh
-
-echo "Install Gigigo Android git hooks locally in project..."
-
-mkdir -p ~/.git_template/hooks && \
-
-git config --global init.templatedir ~/.git_template && \
-echo -e '#!/bin/sh\nvalidate-commit-msg -p eslint "$(head -n1 $1)"' > ~/.git_template/hooks/commit-msg && \
-chmod +x ~/.git_template/hooks/commit-msg

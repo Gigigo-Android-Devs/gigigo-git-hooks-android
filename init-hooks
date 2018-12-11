@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+CURRENT_PROJECT=$(basename `git rev-parse --show-toplevel`)
+HOOKS_PATH='./git/hooks'
+
+echo "Install Gigigo Android Git hooks"
+
+read -p "Install globally? (locally by default) [y|n] " -n 1 -r < /dev/tty
+    echo
+    if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
+        echo "Global scope"
+        #mkdir -p ~/.git_template/hooks && \
+        #git config --global init.templatedir ~/.git_template && \
+        HOOKS_PATH='~/.git_template/hooks'
+    else
+        echo "Locally to project $CURRENT_PROJECT"
+
+    fi
+
+echo "installing Git hooks..."
+
+echo 'pre-commit path: ' $HOOKS_PATH/pre-commit
+#echo -e '' > $HOOKS_PATH/pre-commit 
+#chmod +x $HOOKS_PATH/pre-commit
+
+echo 'commit-msg path: ' $HOOKS_PATH/commit-msg
+#echo -e '' > $HOOKS_PATH/commit-msg
+#chmod +x $HOOKS_PATH/commit-msg
+
+echo 'pre-push path: ' $HOOKS_PATH/pre-push
+#echo -e '' > $HOOKS_PATH/pre-push
+#chmod +x $HOOKS_PATH/pre-push
