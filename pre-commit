@@ -4,7 +4,6 @@ echo "Running static analysis..."
 
 # Inspect code using Ktlint
 ./gradlew ktlint > analysis_output.log 2>&1
- 
 status=$?
 
 if [ "$status" = 0 ] ; then
@@ -16,8 +15,14 @@ else
     echo
     if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
         ./gradlew ktlintFormat ktlint > analysis_output.log 2>&1
-    fi
+        status=$?
 
-    echo 1>&2 "Error persist. Try to fix manually. See more at file 'analysis_output.log'"
-    exit 1
+        if [ "$status" -ne 0 ]; then
+        echo 1>&2 "Error persist. Try to fix manually. See more at file 'analysis_output.log'"
+        exit 1
+        fi
+    else 
+        echo 1>&2 "Fix errors manually. See more at file 'analysis_output.log'"
+        exit 1
+    fi
 fi
