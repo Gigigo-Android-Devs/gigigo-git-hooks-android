@@ -1,28 +1,36 @@
 #!/bin/sh
 
-echo "Running static analysis..."
+NUM_CHANGES="$(git status --porcelain | wc -l)"
 
-# Inspect code using Ktlint
-./gradlew ktlint > analysis_output.log 2>&1
-status=$?
+if [[  $NUM_CHANGES -gt 0 ]]; then 
+    echo "Running static analysis..."
 
-if [ "$status" = 0 ] ; then
-    echo "Static analysis found no problems."
-    exit 0
-else
-    echo 1>&2 "ERROR: Static analysis found violations."
-    read -p "Auto fix them by ktlintFormat? [y|n] " -n 1 -r < /dev/tty
-    echo
-    if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
-        ./gradlew ktlintFormat ktlint > analysis_output.log 2>&1
-        status=$?
+    # Inspect code using Ktlint
+    ./gradlew ktlint > analysis_output.log 2>&1
+    status=$?
 
-        if [ "$status" -ne 0 ]; then
-        echo 1>&2 "Error persist. Try to fix manually. See more at file 'analysis_output.log'"
-        exit 1
+    if [ "$status" = 0 ] ; then
+        echo "STATIC ANALYSIS SUCCESSFUL in $SECONDS s."
+        exit 0
+    else
+        echo 1>&2 "ERROR: Static analysis found violations."
+        read -p "Auto fix them by ktlintFormat? [y|n] " -n 1 -r < /dev/tty
+        echo
+        if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
+            ./gradlew ktlintFormat ktlint > analysis_output.log 2>&1
+            status=$?
+
+            if [ "$status" -ne 0 ]; then
+                echo 1>&2 "ERROR: Try to fix manually. See more at file 'analysis_output.log'"
+                exit 1
+            else
+                echo "FORMAT SUCCESSFUL in $SECONDS s."
+            fi
+        else 
+            echo 1>&2 "ERROR: Fix errors manually. See more at file 'analysis_output.log'"
+            exit 1
         fi
-    else 
-        echo 1>&2 "Fix errors manually. See more at file 'analysis_output.log'"
-        exit 1
     fi
+
+    exit 0
 fi
