@@ -1,0 +1,11 @@
+#!/bin/sh
+
+MESSAGE=$(cat "$1" | sed '/^#.*/d')
+
+if [ -z "$MESSAGE" ]; then
+    echo "ERROR: Aborting commit due to empty commit message."
+    exit 1
+else 
+    echo "COMMIT SUCCESSFUL."
+    exit 0
+fi
