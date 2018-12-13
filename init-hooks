@@ -19,16 +19,16 @@ read -p "Install globally? (locally by default) [y|n] " -n 1 -r < /dev/tty
 echo "installing hooks..."
 
 echo 'pre-commit path: ' $HOOKS_PATH/pre-commit
-wget -P $CURRENT_PROJECT "https://github.com/Gigigo-Android-Devs/gigigo-git-hooks-android/blob/master/hooks/pre-commit"
+wget -P $CURRENT_PROJECT "https://raw.githubusercontent.com/Gigigo-Android-Devs/gigigo-git-hooks-android/master/hooks/pre-commit"
 chmod +x $HOOKS_PATH/pre-commit
 
 echo 'commit-msg path: ' $HOOKS_PATH/commit-msg
-wget -P $CURRENT_PROJECT "https://github.com/Gigigo-Android-Devs/gigigo-git-hooks-android/blob/master/hooks/commit-msg"
+wget -P $CURRENT_PROJECT "https://raw.githubusercontent.com/Gigigo-Android-Devs/gigigo-git-hooks-android/master/hooks/commit-msg"
 chmod +x $HOOKS_PATH/commit-msg
 
 echo 'pre-push path: ' $HOOKS_PATH/pre-push
-wget -P $CURRENT_PROJECT "https://github.com/Gigigo-Android-Devs/gigigo-git-hooks-android/blob/master/hooks/pre-push"
+wget -P $CURRENT_PROJECT "https://raw.githubusercontent.com/Gigigo-Android-Devs/gigigo-git-hooks-android/master/hooks/pre-push"
 chmod +x $HOOKS_PATH/pre-push
 
 echo "Installing ktlint https://ktlint.github.io/"
-wget -P $CURRENT_PROJECT "https://github.com/Gigigo-Android-Devs/gigigo-git-hooks-android/blob/master/analysis/ktlint.gradle"
+wget -P $CURRENT_PROJECT "https://raw.githubusercontent.com/Gigigo-Android-Devs/gigigo-git-hooks-android/master/analysis/ktlint.gradle"
