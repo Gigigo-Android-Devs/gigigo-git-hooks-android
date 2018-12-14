@@ -1,34 +1,48 @@
 #!/usr/bin/env bash
 
-CURRENT_PROJECT=$(basename `git rev-parse --show-toplevel`)
-HOOKS_PATH='./git/hooks'
+GIT_INIT=$(basename `git rev-parse --show-toplevel`)
 
+if [[ -z "$GIT_INIT" ]]; then
+	git init .
+fi
+
+CURRENT_PROJECT=$(basename `git rev-parse --show-toplevel`)
+HOOKS_PATH='.git/hooks'
+ 
 echo "Install Gigigo Android Git hooks"
 
 read -p "Install globally? (locally by default) [y|n] " -n 1 -r < /dev/tty
     echo
     if echo $REPLY | grep -E '^[Yy]$' > /dev/null; then
-        echo "Global scope"
         #mkdir -p ~/.git_template/hooks && \
         #git config --global init.templatedir ~/.git_template && \
         HOOKS_PATH='~/.git_template/hooks'
+        echo "Global scope $HOOKS_PATH"
     else
         echo "Locally to project $CURRENT_PROJECT"
     fi
 
-echo "installing hooks..."
+if [[ -n "$CURRENT_PROJECT" ]]; then
+	echo "installing hooks..."
 
-echo 'pre-commit path: ' $HOOKS_PATH/pre-commit
-wget -P $CURRENT_PROJECT "https://raw.githubusercontent.com/Gigigo-Android-Devs/gigigo-git-hooks-android/master/hooks/pre-commit"
-chmod +x $HOOKS_PATH/pre-commit
+	wget -P $HOOKS_PATH "https://raw.githubusercontent.com/Gigigo-Android-Devs/gigigo-git-hooks-android/master/hooks/pre-commit"
+	chmod +x $HOOKS_PATH/pre-commit
+	echo "INSTALLED '$HOOKS_PATH/pre-commit'"
 
-echo 'commit-msg path: ' $HOOKS_PATH/commit-msg
-wget -P $CURRENT_PROJECT "https://raw.githubusercontent.com/Gigigo-Android-Devs/gigigo-git-hooks-android/master/hooks/commit-msg"
-chmod +x $HOOKS_PATH/commit-msg
+	wget -P $HOOKS_PATH "https://raw.githubusercontent.com/Gigigo-Android-Devs/gigigo-git-hooks-android/master/hooks/commit-msg"
+	chmod +x $HOOKS_PATH/commit-msg
+	echo "INSTALLED '$HOOKS_PATH/commit-msg'"
 
-echo 'pre-push path: ' $HOOKS_PATH/pre-push
-wget -P $CURRENT_PROJECT "https://raw.githubusercontent.com/Gigigo-Android-Devs/gigigo-git-hooks-android/master/hooks/pre-push"
-chmod +x $HOOKS_PATH/pre-push
+	wget -P $HOOKS_PATH "https://raw.githubusercontent.com/Gigigo-Android-Devs/gigigo-git-hooks-android/master/hooks/pre-push"
+	chmod +x $HOOKS_PATH/pre-push
+	echo "INSTALLED '$HOOKS_PATH/pre-push'"
+	
+	echo 'ALL HOOKS INSTALLED SUCCESSFUL'
 
-echo "Installing ktlint https://ktlint.github.io/"
-wget -P $CURRENT_PROJECT "https://raw.githubusercontent.com/Gigigo-Android-Devs/gigigo-git-hooks-android/master/analysis/ktlint.gradle"
+	echo "Installing ktlint https://ktlint.github.io/"
+	wget "https://raw.githubusercontent.com/Gigigo-Android-Devs/gigigo-git-hooks-android/master/analysis/ktlint.gradle"
+	echo "INSTALLED ktlint at './ktlint.gradle'"
+else
+	echo "ERROR: not a git repository, could not init hooks. Please init git manually."
+fi
+	
